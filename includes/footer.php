@@ -1,7 +1,7 @@
 <style>
   footer {
     background-color: #F4EAD5;
-    padding: 40px 0 0 0; /* Removed bottom padding */
+    padding: 40px 0 0 0; 
     font-family: 'Segoe UI', sans-serif;
   }
 
@@ -25,11 +25,11 @@
     padding: 10px 0;
     text-align: center;
     color: white;
-    margin-bottom: 0; /* Ensure nothing comes after */
+    margin-bottom: 0; 
   }
 </style>
 
-<!-- ✅ Footer -->
+<!-- Footer -->
 <footer>
   <div class="container pb-4">
     <div class="row text-center text-md-start align-items-start">
@@ -38,8 +38,7 @@
       <div class="col-md-3 mb-4 d-flex flex-column align-items-center align-items-md-start">
         <img src="images/logo.png" alt="Logo" class="footer-logo" />
       </div>
-
-      <!-- Info Links -->
+      
       <div class="col-md-3 mb-4">
         <ul class="list-unstyled">
           <li><a href="#">About Us</a></li>
@@ -49,7 +48,6 @@
         </ul>
       </div>
 
-      <!-- Categories -->
       <div class="col-md-3 mb-4">
         <ul class="list-unstyled">
           <li><a href="#">Greengrocer</a></li>
@@ -60,7 +58,6 @@
         </ul>
       </div>
 
-      <!-- Social -->
       <div class="col-md-3 mb-4">
         <h6 class="fw-semibold mb-3">Follow Us</h6>
         <a href="#" class="text-dark me-3 fs-5"><i class="fab fa-instagram"></i></a>
@@ -72,9 +69,8 @@
     </div>
   </div>
 
-  <!-- Copyright -->
   <div class="footer-bottom">
-    <small>&copy; 2025 <strong>Cleck-E-Mart</strong>. All rights reserved</small>
+    <small>Copyright &copy; 2025 <strong>Cleck-E-Mart</strong>. All rights reserved</small>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </footer>
