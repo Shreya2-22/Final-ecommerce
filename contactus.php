@@ -3,14 +3,13 @@
 <div class="container my-5">
   <div class="row justify-content-center align-items-center">
 
-    <!-- 📞 Left: Support Image -->
     <div class="col-md-5 text-center text-md-start mb-4 mb-md-0">
         <img src="images/contact.jpg" alt="Support"
         class="img-fluid shadow-sm rounded-circle ms-md-n3"
         style="max-width: 475px;" />
     </div>
 
-    <!-- 📨 Right: Contact Form -->
+    <!-- Contact Form -->
     <div class="col-md-6">
       <div class="p-4 rounded-4 shadow-sm" style="background-color: #eeeeee; border-top: 5px solid #C49A6C;">
         <h3 class="fw-bold mb-4 text-center text-md-start"> Contact Us</h3>
