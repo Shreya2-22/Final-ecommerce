@@ -1,5 +1,5 @@
 <?php include("includes/header.php"); ?>
-<!-- Homepage Slider (Exact Match to UI) -->
+<!-- Homepage Slider -->
 <div id="homepageCarousel" class="carousel slide mt-3" data-bs-ride="carousel">
   <div class="carousel-inner">
 
@@ -37,7 +37,7 @@
 
   </div>
 
-  <!-- Controls (closer like UI) -->
+  <!-- Controls  -->
   <button class="carousel-control-prev" type="button" data-bs-target="#homepageCarousel" data-bs-slide="prev"
     style="width: 5%;">
     <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: invert(1);"></span>
