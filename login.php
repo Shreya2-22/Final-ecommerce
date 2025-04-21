@@ -1,6 +1,6 @@
 <?php include("includes/header.php"); ?>
 
-<!-- Login Form Container -->
+<!-- Login Form -->
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 75vh;">
   <div class="p-4 shadow-sm" style="background-color: #e0e0e0; width: 100%; max-width: 400px; border-radius: 16px;">
     <h3 class="fw-bold text-center mb-3" style="color: #2e2e2e;">Sign-In</h3>
