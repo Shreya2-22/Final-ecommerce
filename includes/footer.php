@@ -1,35 +1,5 @@
-<style>
-  footer {
-    background-color: #F4EAD5;
-    padding: 40px 0 0 0; 
-    font-family: 'Segoe UI', sans-serif;
-  }
-
-  footer a {
-    color: #333 !important;
-    text-decoration: none;
-    transition: color 0.3s, text-decoration 0.3s;
-  }
-
-  footer a:hover {
-    color: #006838 !important;
-    text-decoration: underline;
-  }
-
-  .footer-logo {
-    width: 150px;
-  }
-
-  .footer-bottom {
-    background-color: #363636;
-    padding: 10px 0;
-    text-align: center;
-    color: white;
-    margin-bottom: 0; 
-  }
-</style>
-
 <!-- Footer -->
+<link rel="stylesheet" href="css/header_footer.css" />
 <footer>
   <div class="container pb-4">
     <div class="row text-center text-md-start align-items-start">
