@@ -1,0 +1,105 @@
+body {
+    background-color: #F0F8E0;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .navbar-brand {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: -5px;
+    margin-bottom: -5px;
+  }
+
+  .navbar-custom {
+    background-color: #D0E8C1;
+    font-size: 0.95rem;
+    padding-top: 0.2rem !important;
+    padding-bottom: 0.2rem !important;
+  }
+
+  .navbar-brand img {
+    height: 60px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .navbar-brand span {
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-left: 8px;
+  }
+
+  .nav-link {
+    color: #000 !important;
+    margin-right: 18px;
+    font-weight: 500;
+  }
+
+  .nav-link:hover {
+    color: #006838 !important;
+  }
+
+  .search-box {
+    border-radius: 30px;
+    padding: 6px 18px;
+    width: 260px;
+    /* wider search bar */
+    border: 1px solid #ccc;
+  }
+
+  .icon-btn {
+    font-size: 1.2rem;
+    color: #000;
+    margin-left: 16px;
+  }
+
+  .icon-btn:hover {
+    color: #006838;
+  }
+
+  .dropdown-menu {
+    background-color: #D0E8C1 !important;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* soft shadow */
+  }
+
+  .dropdown-item {
+    color: #000 !important;
+    font-weight: 500;
+  }
+
+  .dropdown-item:hover {
+    background-color: #C4DEB2 !important;
+    /* a slight green shade on hover */
+    color: #006838 !important;
+  }
+
+  footer {
+    background-color: #F4EAD5;
+    padding: 40px 0 0 0; 
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  footer a {
+    color: #333 !important;
+    text-decoration: none;
+    transition: color 0.3s, text-decoration 0.3s;
+  }
+
+  footer a:hover {
+    color: #006838 !important;
+    text-decoration: underline;
+  }
+
+  .footer-logo {
+    width: 150px;
+  }
+
+  .footer-bottom {
+    background-color: #363636;
+    padding: 10px 0;
+    text-align: center;
+    color: white;
+    margin-bottom: 0; 
+  }
