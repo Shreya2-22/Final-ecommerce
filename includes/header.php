@@ -40,7 +40,7 @@
             </li>
             <li class="nav-item"><a class="nav-link" href="#bestsellers">Best Sellers</a></li>
             <li class="nav-item"><a class="nav-link" href="contactus.php">Contact Us</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Become a Trader</a></li>
+            <li class="nav-item"><a class="nav-link" href="trader_registration.php">Become a Trader</a></li>
           </ul>
         </div>
         <div class="d-flex align-items-center">
