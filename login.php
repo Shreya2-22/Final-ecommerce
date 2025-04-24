@@ -36,7 +36,7 @@
         Don’t have an account yet? <a href="#" class="text-decoration-none">Register here</a>
       </div>
       <div>
-        Want to sell on Cleck-E-Mart? <a href="#" class="text-decoration-none">Register your shop</a>
+        Want to sell on Cleck-E-Mart? <a href="trader_registration.php" class="text-decoration-none">Register your shop</a>
       </div>
     </div>
   </div>
