@@ -1,0 +1,20 @@
+.alert-fail-alt { border-color: #9A2A2A;background: #9A2A2A;color: #fff; }
+.alert-success-alt { border-color: #7CC355;background: #7CC355;color: #fff; }
+.glyphicon { margin-right:10px; }
+.alert a {color: gold;}
+.alertmessage
+{
+  z-index: 1000;
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	animation: hideAnimation 0s ease-in 4s;
+  	animation-fill-mode: forwards;
+}
+@keyframes hideAnimation {
+  to {
+    visibility: hidden;
+    width: 0;
+    height: 0;
+  }
+}

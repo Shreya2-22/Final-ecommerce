@@ -1,4 +1,10 @@
-<?php include("includes/header.php"); ?>
+<?php
+
+include "includes/connect.php";
+include "includes/header.php";
+//session_destroy();
+?>
+
 <!-- Homepage Slider -->
 <div id="homepageCarousel" class="carousel slide mt-3" data-bs-ride="carousel">
   <div class="carousel-inner">
@@ -53,96 +59,80 @@
 </div>
 
 
-<!-- Shop By traders section -->
+<!-- Shop by Traders Section (Dynamic) -->
 <section class="container my-5">
   <h2 class="text-center fw-bold mb-5" style="color: #2e5f2e;">Shop by Traders</h2>
+  
 
-  <div class="row justify-content-center text-center g-5">
+  <div class="row justify-content-center text-center g-4">
+    <?php 
+      $query = "SELECT * FROM user_master WHERE ROLE = 'trader'";
+      $result = oci_parse($conn, $query);
+      oci_execute($result);
 
-    <!-- Greengrocer -->
-    <div class="col-6 col-md-4 col-lg-2">
-      <a href="greengrocer.php" class="text-decoration-none">
-        <img src="images/categories/Greengrocery.jpg" class="img-fluid rounded shadow-sm mb-2" alt="Greengrocer" style="height: 200px; width: 200px; object-fit: cover;">
-        <h6 class="fw-semibold text-dark">Greengrocer</h6>
-      </a>
-    </div>
-
-    <!-- Butcher -->
-    <div class="col-6 col-md-4 col-lg-2">
-      <a href="butcher.php" class="text-decoration-none">
-        <img src="images/categories/butcher.jpg" class="img-fluid rounded shadow-sm mb-2" alt="Butcher" style="height: 200px; width: 200px; object-fit: cover;">
-        <h6 class="fw-semibold text-dark">Butcher</h6>
-      </a>
-    </div>
-
-    <!-- Fishmonger -->
-    <div class="col-6 col-md-4 col-lg-2">
-      <a href="fishmonger.php" class="text-decoration-none">
-        <img src="images/categories/Fishmonger.jpg" class="img-fluid rounded shadow-sm mb-2" alt="Fishmonger" style="height: 200px; width: 200px; object-fit: cover;">
-        <h6 class="fw-semibold text-dark">Fishmonger</h6>
-      </a>
-    </div>
-
-    <!-- Bakery -->
-    <div class="col-6 col-md-4 col-lg-2">
-      <a href="bakery.php" class="text-decoration-none">
-        <img src="images/categories/bakery.jpg" class="img-fluid rounded shadow-sm mb-2" alt="Bakery" style="height: 200px; width: 200px; object-fit: cover;">
-        <h6 class="fw-semibold text-dark">Bakery</h6>
-      </a>
-    </div>
-
-    <!-- Delicatessen -->
-    <div class="col-6 col-md-4 col-lg-2">
-      <a href="delicatessen.php" class="text-decoration-none">
-        <img src="images/categories/delicatessen.jpg" class="img-fluid rounded shadow-sm mb-2" alt="Delicatessen" style="height: 200px; width: 200px; object-fit: cover;">
-        <h6 class="fw-semibold text-dark">Delicatessen</h6>
-      </a>
-    </div>
-
+      while ($row = oci_fetch_assoc($result)) {
+        $shopImage = $row['SHOP_IMAGE'];
+        $shopName = $row['SHOP_NAME'];
+        $userId = $row['USER_ID'];
+        
+    ?>
+      <div class="col-6 col-md-4 col-lg-2">
+        <a href="product.php?catg=<?php echo $userId; ?>" class="text-decoration-none">
+          <img src="images/categories/<?php echo $shopImage; ?>" class="img-fluid rounded shadow-sm mb-2" alt="<?php echo $shopName; ?>" style="height: 200px; width: 200px; object-fit: cover;">
+        </a>
+      </div>
+    <?php } ?>
   </div>
 </section>
 
-<?php
-$bestSellers = [
-  ["name" => "Capsicum", "price" => "£3.99", "shop" => "Fresh Organic", "rating" => 5, "image" => "Capsicum.jpg"],
-  ["name" => "Salmon", "price" => "£6.49", "shop" => "Ocean Fresh", "rating" => 5, "image" => "Salmon.jpg"],
-  ["name" => "Chocolate Donut", "price" => "$1.25", "shop" => "Artisan Breads and Pastries", "rating" => 4, "image" => "Chocolatedonut.jpg"],
-  ["name" => "Fresh Crab", "price" => "£8.99", "shop" => "Ocean Fresh", "rating" => 5, "image" => "Crab.jpg"],
-  ["name" => "Organic Tomatoes", "price" => "£3.25", "shop" => "Fresh Organic", "rating" => 4, "image" => "toma.webp"],
-  ["name" => "Croissant", "price" => "£2.50", "shop" => "Artisan Breads and Pastries", "rating" => 5, "image" => "Croissant.jpg"],
-  ["name" => "Chicken Drumstick", "price" => "£4.45", "shop" => "Butcher's Block", "rating" => 5, "image" => "Chicken Drumstick.jpg"],
-  ["name" => "Cheddar Cheese", "price" => "£5.20 ", "shop" => "Fresh Organic", "rating" => 4, "image" => "Cheddarcheese.jpeg"],
-];
-?>
 
 <!-- Best Sellers Section -->
 <section class="container my-5">
-  <h2 id="bestsellers" class="text-center fw-bold mb-5" style="color: #2e5f2e;">Best Sellers</h2>
+  <h2 id="bestsellers" class="text-center fw-bold mb-4" style="color: #2e5f2e;">Best Sellers</h2>
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 id="bestsellers" class="fw-bold" style="color: #2e5f2e;"></h2>
+    <a href="product.php" class="fw-semibold text-decoration-none" style="color: #C49A6C; font-size: 1.15rem;">
+      View More →
+    </a>
+  </div>
 
   <div class="row justify-content-center g-4">
-    <?php foreach ($bestSellers as $product): ?>
+    <?php
+    $query = "SELECT * FROM PRODUCT WHERE DISPLAY_TYPE = 'bestselling'";
+    $result = oci_parse($conn, $query);
+    oci_execute($result);
+
+    while ($row = oci_fetch_assoc($result)) {
+      $productName = ucwords($row['PRODUCT_NAME']);
+      $productPrice = '£' . number_format($row['PRODUCT_PRICE'], 2);
+      $productImage = $row['PRODUCT_IMAGE'];
+      $ratingStars = $row['PRODUCT_RATING']; // e.g., '4star.jpg' or '5star.jpg'
+      $ratingValue = (int)substr($ratingStars, 0, 1);
+      ?>
       <div class="col-6 col-md-4 col-lg-3 d-flex justify-content-center">
         <div class="card h-100 shadow-sm border-0" style="width: 90%; border-radius: 12px; overflow: hidden;">
           <div style="height: 160px; overflow: hidden;">
-            <img src="images/Bestsellers/<?php echo $product['image']; ?>" class="w-100" alt="<?php echo $product['name']; ?>" style="object-fit: cover; height: 100%;">
+            <img src="images/product_images/<?php echo $productImage; ?>" class="w-100" alt="<?php echo $productName; ?>" style="object-fit: cover; height: 100%;">
           </div>
           <div class="card-body text-center p-2">
-            <h6 class="fw-semibold mb-1" style="font-size: 0.95rem;"><?php echo $product['name']; ?></h6>
-            <p class="text-muted mb-1" style="font-size: 0.85rem;"><?php echo $product['price']; ?></p>
-            <p class="mb-1 text-secondary" style="font-size: 0.8rem;"><?php echo $product['shop']; ?></p>
+            <h6 class="fw-semibold mb-1" style="font-size: 0.95rem;"><?php echo $productName; ?></h6>
+            <p class="text-muted mb-1" style="font-size: 0.85rem;"><?php echo $productPrice; ?></p>
             <p class="text-warning mb-1" style="font-size: 0.85rem;">
-              <?php echo str_repeat('&#9733;', $product['rating']); ?>
-              <?php echo str_repeat('&#9734;', 5 - $product['rating']); ?>
+              <?php echo str_repeat('&#9733;', $ratingValue); ?>
+              <?php echo str_repeat('&#9734;', 5 - $ratingValue); ?>
             </p>
             <div class="d-flex justify-content-center align-items-center gap-2">
-              <a href="#" class="text-dark fs-5"><i class="far fa-heart"></i></a>
-              <a href="#" class="btn btn-sm text-white px-3 py-1" style="background-color: #C49A6C; font-size: 0.85rem;">Add to Cart</a>
+              <a href="wishlist.php" class="text-dark fs-5"><i class="far fa-heart"></i></a>
+              <a href="addtocart.php?prod=<?php echo $row['PRODUCT_ID']; ?>" class="btn btn-sm text-white px-3 py-1" style="background-color: #C49A6C; font-size: 0.85rem;">Add to Cart</a>
             </div>
           </div>
         </div>
       </div>
-    <?php endforeach; ?>
+    <?php } ?>
   </div>
 </section>
 
-<?php include("includes/footer.php"); ?>
+<?php
+	include "includes/footer.php";
+	clearMsg();
+	?>
