@@ -38,16 +38,29 @@
                 <li><a class="dropdown-item" href="#">Delicatessen</a></li>
               </ul>
             </li>
-            <li class="nav-item"><a class="nav-link" href="#bestsellers">Best Sellers</a></li>
+            <li class="nav-item"><a class="nav-link" href="index.php#bestsellers">Best Sellers</a></li>
             <li class="nav-item"><a class="nav-link" href="contactus.php">Contact Us</a></li>
             <li class="nav-item"><a class="nav-link" href="trader_registration.php">Become a Trader</a></li>
           </ul>
         </div>
         <div class="d-flex align-items-center">
           <input class="form-control search-box me-3" type="search" placeholder="Search" />
-          <a href="#" class="icon-btn"><i class="fas fa-heart"></i></a>
+          <?php
+          if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+          }
+          if (isset($_SESSION['id']) && $_SESSION['role'] == 'customer') {
+            echo '<a href="wishlist.php" class="icon-btn"><i class="fas fa-heart"></i></a>';
+          } else {
+            echo '<a href="login.php" class="icon-btn" title="Login required"><i class="fas fa-heart"></i></a>';
+          }
+          ?>
           <a href="#" class="icon-btn"><i class="fas fa-shopping-cart"></i></a>
-          <a href="login.php" class="icon-btn"><i class="fas fa-user"></i></a>
+          <?php if (isset($_SESSION['id'])): ?>
+            <a href="logout.php" class="icon-btn"><i class="fas fa-sign-out-alt"></i></a>
+          <?php else: ?>
+            <a href="login.php" class="icon-btn"><i class="fas fa-user"></i></a>
+          <?php endif; ?>
         </div>
       </div>
     </div>

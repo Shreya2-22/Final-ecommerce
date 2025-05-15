@@ -1,11 +1,23 @@
 <?php include("includes/header.php"); ?>
+<style type="">
+		
+		.error{
+			color: red;
+			/*color: #9A2A2A;*/
+			font-style: italic;
+		}
+
+		#login_message_error{
+			margin-top: 20px;
+		}
+	</style>
 
 <!-- Login Form -->
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 75vh;">
   <div class="p-4 shadow-sm" style="background-color: #e0e0e0; width: 100%; max-width: 400px; border-radius: 16px;">
     <h3 class="fw-bold text-center mb-3" style="color: #2e2e2e;">Sign-In</h3>
 
-    <form action="#" method="post">
+    <form action="login_process.php" method="post">
       <div class="mb-2">
         <label for="username" class="form-label fst-italic small">Username</label>
         <input type="text" id="username" name="username" class="form-control form-control-sm px-3 py-2 rounded" required>
@@ -24,7 +36,7 @@
         </select>
       </div>
       <div class="d-grid">
-        <button type="submit" class="btn text-white" style="background-color: #C49A6C;">SIGN IN</button>
+        <button type="submit" name="submit" class="btn text-white" style="background-color: #C49A6C;">SIGN IN</button>
       </div>
     </form>
 
@@ -42,4 +54,7 @@
   </div>
 </div>
 
-<?php include("includes/footer.php"); ?>
+<?php
+include("includes/footer.php");
+clearMsg();
+?>

@@ -62,19 +62,19 @@ include "includes/header.php";
 <!-- Shop by Traders Section (Dynamic) -->
 <section class="container my-5">
   <h2 class="text-center fw-bold mb-5" style="color: #2e5f2e;">Shop by Traders</h2>
-  
+
 
   <div class="row justify-content-center text-center g-4">
-    <?php 
-      $query = "SELECT * FROM user_master WHERE ROLE = 'trader'";
-      $result = oci_parse($conn, $query);
-      oci_execute($result);
+    <?php
+    $query = "SELECT * FROM user_master WHERE ROLE = 'trader'";
+    $result = oci_parse($conn, $query);
+    oci_execute($result);
 
-      while ($row = oci_fetch_assoc($result)) {
-        $shopImage = $row['SHOP_IMAGE'];
-        $shopName = $row['SHOP_NAME'];
-        $userId = $row['USER_ID'];
-        
+    while ($row = oci_fetch_assoc($result)) {
+      $shopImage = $row['SHOP_IMAGE'];
+      $shopName = $row['SHOP_NAME'];
+      $userId = $row['USER_ID'];
+
     ?>
       <div class="col-6 col-md-4 col-lg-2">
         <a href="product.php?catg=<?php echo $userId; ?>" class="text-decoration-none">
@@ -102,13 +102,24 @@ include "includes/header.php";
     $result = oci_parse($conn, $query);
     oci_execute($result);
 
+    // Fetch wishlist products for the logged-in customer
+    $wishlist = [];
+    if (isset($_SESSION['id']) && $_SESSION['role'] == 'customer') {
+      $wishlist_query = "SELECT FK1_PRODUCT_ID FROM WISHLIST WHERE FK2_USER_ID = " . $_SESSION['id'];
+      $wishlist_result = oci_parse($conn, $wishlist_query);
+      oci_execute($wishlist_result);
+      while ($wish_item = oci_fetch_assoc($wishlist_result)) {
+        $wishlist[] = $wish_item['FK1_PRODUCT_ID'];
+      }
+    }
+
     while ($row = oci_fetch_assoc($result)) {
       $productName = ucwords($row['PRODUCT_NAME']);
       $productPrice = '£' . number_format($row['PRODUCT_PRICE'], 2);
       $productImage = $row['PRODUCT_IMAGE'];
       $ratingStars = $row['PRODUCT_RATING']; // e.g., '4star.jpg' or '5star.jpg'
       $ratingValue = (int)substr($ratingStars, 0, 1);
-      ?>
+    ?>
       <div class="col-6 col-md-4 col-lg-3 d-flex justify-content-center">
         <div class="card h-100 shadow-sm border-0" style="width: 90%; border-radius: 12px; overflow: hidden;">
           <div style="height: 160px; overflow: hidden;">
@@ -122,9 +133,18 @@ include "includes/header.php";
               <?php echo str_repeat('&#9734;', 5 - $ratingValue); ?>
             </p>
             <div class="d-flex justify-content-center align-items-center gap-2">
-              <a href="wishlist.php" class="text-dark fs-5"><i class="far fa-heart"></i></a>
+              <?php if (isset($_SESSION['id']) && $_SESSION['role'] == 'customer') {
+                $isInWishlist = in_array($row['PRODUCT_ID'], $wishlist);
+                $heartClass = $isInWishlist ? 'fas fa-heart text-danger' : 'far fa-heart text-dark';
+              ?>
+                <a href="wishlist_query.php?id=<?php echo $row['PRODUCT_ID']; ?>" class="fs-5">
+                  <i class="<?php echo $heartClass; ?>"></i>
+                </a>
+              <?php } ?>
+
               <a href="addtocart.php?prod=<?php echo $row['PRODUCT_ID']; ?>" class="btn btn-sm text-white px-3 py-1" style="background-color: #C49A6C; font-size: 0.85rem;">Add to Cart</a>
             </div>
+
           </div>
         </div>
       </div>
@@ -133,6 +153,6 @@ include "includes/header.php";
 </section>
 
 <?php
-	include "includes/footer.php";
-	clearMsg();
-	?>
+include "includes/footer.php";
+clearMsg();
+?>
