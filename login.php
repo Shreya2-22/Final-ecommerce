@@ -45,7 +45,7 @@
         Forgot password? <a href="#" class="text-decoration-none">Click here</a>
       </div>
       <div class="mb-1">
-        Don’t have an account yet? <a href="customer_registration.php" class="text-decoration-none">Register here</a>
+        Don’t have an account yet? <a href="register_customer.php" class="text-decoration-none">Register here</a>
       </div>
       <div>
         Want to sell on Cleck-E-Mart? <a href="trader_registration.php" class="text-decoration-none">Register your shop</a>
