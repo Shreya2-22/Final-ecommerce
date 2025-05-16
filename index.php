@@ -98,7 +98,7 @@ include "includes/header.php";
 
   <div class="row justify-content-center g-4">
     <?php
-    $query = "SELECT * FROM PRODUCT WHERE DISPLAY_TYPE = 'bestselling'";
+    $query = "SELECT P.*, S.SHOP_NAME FROM PRODUCT P JOIN SHOP S ON P.FK1_SHOP_ID = S.SHOP_ID WHERE DISPLAY_TYPE = 'bestselling'";
     $result = oci_parse($conn, $query);
     oci_execute($result);
 
@@ -115,6 +115,7 @@ include "includes/header.php";
 
     while ($row = oci_fetch_assoc($result)) {
       $productName = ucwords($row['PRODUCT_NAME']);
+      $shopName = $row['SHOP_NAME'];
       $productPrice = '£' . number_format($row['PRODUCT_PRICE'], 2);
       $productImage = $row['PRODUCT_IMAGE'];
       $ratingStars = $row['PRODUCT_RATING']; // e.g., '4star.jpg' or '5star.jpg'
@@ -123,10 +124,16 @@ include "includes/header.php";
       <div class="col-6 col-md-4 col-lg-3 d-flex justify-content-center">
         <div class="card h-100 shadow-sm border-0" style="width: 90%; border-radius: 12px; overflow: hidden;">
           <div style="height: 160px; overflow: hidden;">
-            <img src="images/product_images/<?php echo $productImage; ?>" class="w-100" alt="<?php echo $productName; ?>" style="object-fit: cover; height: 100%;">
+            <a href="productdescription.php?id=<?php echo $row['PRODUCT_ID']; ?>" class="text-decoration-none">
+              <!-- Product Image -->
+              <img src="images/product_images/<?php echo $productImage; ?>" class="w-100" alt="<?php echo $productName; ?>" style="object-fit: cover; height: 100%;">
+            </a>
           </div>
           <div class="card-body text-center p-2">
-            <h6 class="fw-semibold mb-1" style="font-size: 0.95rem;"><?php echo $productName; ?></h6>
+            <h6 class="fw-semibold mb-1" style="font-size: 0.95rem;">
+              <?php echo $productName; ?><br>
+              <span class="text-muted" style="font-size: 0.8rem;"><?php echo $shopName; ?></span>
+            </h6>
             <p class="text-muted mb-1" style="font-size: 0.85rem;"><?php echo $productPrice; ?></p>
             <p class="text-warning mb-1" style="font-size: 0.85rem;">
               <?php echo str_repeat('&#9733;', $ratingValue); ?>

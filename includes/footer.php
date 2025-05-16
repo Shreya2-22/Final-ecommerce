@@ -7,16 +7,7 @@
     }  
       
 ?>
-<?php
-if (isset($_SESSION['passmessage'])) {
-    echo "<div class='alert alert-success'>".$_SESSION['passmessage']."</div>";
-    unset($_SESSION['passmessage']);
-}
-if (isset($_SESSION['failmessage'])) {
-    echo "<div class='alert alert-danger'>".$_SESSION['failmessage']."</div>";
-    unset($_SESSION['failmessage']);
-}
-?>
+
 
 <link rel="stylesheet" type="text/css" href="css/alert_fail.css">
 

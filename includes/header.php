@@ -66,3 +66,27 @@
     </div>
   </nav>
   <!-- NAVBAR END -->
+  <?php if (isset($_SESSION['passmessage']) || isset($_SESSION['failmessage'])): ?>
+    <div id="alert-wrapper" class="position-relative z-3">
+      <div class="container mt-0">
+        <div class="alert <?= isset($_SESSION['passmessage']) ? 'alert-success' : 'alert-danger' ?> alert-dismissible fade show shadow-sm small px-3 py-2 text-center" role="alert" style="margin-bottom: 0;">
+          <?= $_SESSION['passmessage'] ?? $_SESSION['failmessage']; ?>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      </div>
+    </div>
+    <?php unset($_SESSION['passmessage'], $_SESSION['failmessage']); ?>
+  <?php endif; ?>
+
+  <script>
+    // Auto-dismiss after 3 seconds
+    document.addEventListener("DOMContentLoaded", () => {
+      const alertEl = document.querySelector(".alert");
+      if (alertEl) {
+        setTimeout(() => {
+          const bsAlert = bootstrap.Alert.getOrCreateInstance(alertEl);
+          bsAlert.close();
+        }, 3000);
+      }
+    });
+  </script>
