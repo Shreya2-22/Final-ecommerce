@@ -17,7 +17,7 @@ $html='
 <div class = "container">
 	<h1 class="heading">Cleck-E-Mart</h1>
 	<p class="parag1"><b><i>Click here to verify your account</i><b><p>
-	<p><a href="http://localhost/Website%20testing/verify_customer_query.php?token='.$token.'&id='.$id.'">Here</a></p>
+	<p><a href="http://localhost/Cleck-E-Mart/verify_customer_query.php?token='.$token.'&id='.$id.'">Here</a></p>
 </div>
 
 ';
@@ -34,9 +34,9 @@ function smtp_mailer($to,$subject, $msg){
 	$mail->Port = 587; 
 	$mail->IsHTML(true);
 	$mail->CharSet = 'UTF-8';
-	$mail->Username = "cleck-e-mart@gmail.com";
+	$mail->Username = "cleckemart@gmail.com";
 	$mail->Password ="gtqnoxoosxfcdmxa";
-	$mail->SetFrom("trinitemart@gmail.com");
+	$mail->SetFrom("cleckemart@gmail.com");
 	$mail->Subject = $subject;
 	$mail->Body =$msg;
 	$mail->AddAddress($to);
