@@ -1,0 +1,150 @@
+/* trader-style.css */
+
+/* Make icons black */
+
+.nav-link i {
+    color: #000 !important;
+}
+.nav-link:hover i {
+    color: blue !important; /* Bootstrap green */
+}
+
+
+/* Dropdown links padding */
+#productsMenu .nav-link {
+    padding-left: 1.5rem;
+}
+.nav-link:hover {
+    background-color: #e0f0d8; /* light greenish hover */
+    color: blue !important;    /* keep text black on hover */
+    border-radius: 4px;
+}
+.nav-link.active {
+    background-color: #e0f0d8; /* light greenish hover */
+    color: blue !important;    /* keep text black on hover */
+    border-radius: 4px;
+}
+.nav-link.active i {
+    color: blue !important;
+}
+
+
+
+/* Default down arrow */
+.toggle-icon {
+    transition: transform 0.3s ease;
+}
+
+/* When expanded, rotate to up arrow */
+a[aria-expanded="true"] .toggle-icon{
+    transform: rotate(180deg);
+}
+
+
+/* Sidebar and content background */
+.sidebar-box {
+    background-color: #D0E8C1;
+    border-radius: 8px;
+}
+.content-box {
+    background-color: #D0E8C1;
+    border-radius: 8px;
+    min-height: 600px;
+}
+
+/* Add spacing around main layout */
+.page-wrapper {
+    padding: 1rem; /* Adds space around sidebar and content */
+}
+
+/* Space between sidebar and content on desktop */
+@media (min-width: 768px) {
+    .content-box {
+        margin-left: 1rem;
+    }
+}
+
+/* On small screens, stack them vertically with gap */
+@media (max-width: 767.98px) {
+    .sidebar-box {
+        margin-bottom: 20px;
+    }
+    .content-box {
+        margin-left: 0;
+    }
+}
+
+/* Logo sizing */
+header img {
+    max-height: 150px;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header spacing fixes */
+body,
+header,
+header .container-fluid {
+    margin: 0;
+    padding: 0;
+    background-color: #F0F8E0;
+}
+header h2 {
+    margin: 0;
+    padding: 0;
+    background-color: #F0F8E0;
+    font-family: 'Epilogue', sans-serif;
+}
+
+/* Reduce left space on heading */
+header h2 {
+    margin-left: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    line-height: 1.1;
+}
+
+/* Mobile header tweaks */
+@media (max-width: 768px) {
+    header .container-fluid {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    header h2 {
+        margin-top: 10px;
+        font-size: 1.5rem;
+    }
+}
+
+/* Remove top margin from layout wrapper */
+.container-fluid {
+    margin-top: 0;
+    padding-top:0;
+}
+
+.footer-spacer {
+  background-color: #F0F8E0;
+  height: 80px;
+}
+
+.footer-top {
+  background-color: #F4EAD5;
+  padding: 30px 0;
+}
+
+.footer-icons a {
+  transition: color 0.3s ease;
+}
+
+.footer-icons a:hover {
+  color: #555; /* Optional hover effect */
+}
+
+.footer-links a {
+  margin: 0 8px;
+}
+
+.footer-bottom {
+  background-color: #363636;
+}
