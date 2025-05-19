@@ -140,14 +140,20 @@ include "includes/header.php";
               <?php echo str_repeat('&#9734;', 5 - $ratingValue); ?>
             </p>
             <div class="d-flex justify-content-center align-items-center gap-2">
-              <?php if (isset($_SESSION['id']) && $_SESSION['role'] == 'customer') {
+              <?php
+              $heartClass = "far fa-heart text-dark"; // default for guest
+              $wishlistLink = "login.php"; // default redirect to login
+
+              if (isset($_SESSION['id']) && $_SESSION['role'] == 'customer') {
                 $isInWishlist = in_array($row['PRODUCT_ID'], $wishlist);
                 $heartClass = $isInWishlist ? 'fas fa-heart text-danger' : 'far fa-heart text-dark';
+                $wishlistLink = "wishlist_query.php?id=" . $row['PRODUCT_ID']; // actual wishlist action
+              }
               ?>
-                <a href="wishlist_query.php?id=<?php echo $row['PRODUCT_ID']; ?>" class="fs-5">
-                  <i class="<?php echo $heartClass; ?>"></i>
-                </a>
-              <?php } ?>
+              <a href="<?php echo $wishlistLink; ?>" class="fs-5">
+                <i class="<?php echo $heartClass; ?>"></i>
+              </a>
+
 
               <a href="addtocart.php?prod=<?php echo $row['PRODUCT_ID']; ?>" class="btn btn-sm text-white px-3 py-1" style="background-color: #C49A6C; font-size: 0.85rem;">Add to Cart</a>
             </div>

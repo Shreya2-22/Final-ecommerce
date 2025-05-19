@@ -2,6 +2,25 @@
 <?php
 include "includes/connect.php";
 ?>
+<?php
+if (session_status() == PHP_SESSION_NONE) {
+	session_start();
+}
+
+if (isset($_SESSION['id'])) {
+	// Redirect based on role
+	if ($_SESSION['role'] === 'customer') {
+		header("Location: index.php"); // Or customer dashboard if available
+		exit();
+	} elseif ($_SESSION['role'] === 'trader') {
+		header("Location: traderdashboard.php");
+		exit();
+	} elseif ($_SESSION['role'] === 'admin') {
+		header("Location: admin_dashboard.php"); // Replace if your admin panel is named differently
+		exit();
+	}
+}
+?>
 <!DOCTYPE html>
 <html>
 

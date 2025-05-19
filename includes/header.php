@@ -40,7 +40,12 @@
             </li>
             <li class="nav-item"><a class="nav-link" href="index.php#bestsellers">Best Sellers</a></li>
             <li class="nav-item"><a class="nav-link" href="contactus.php">Contact Us</a></li>
-            <li class="nav-item"><a class="nav-link" href="trader_registration.php">Become a Trader</a></li>
+            <?php if (!isset($_SESSION['id'])): ?>
+              <li class="nav-item">
+                <a class="nav-link" href="switch_to_trader.php">Become a Trader</a>
+              </li>
+            <?php endif; ?>
+
           </ul>
         </div>
         <div class="d-flex align-items-center">
