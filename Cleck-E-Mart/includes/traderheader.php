@@ -1,7 +1,13 @@
+trdaerheader.php
 <?php
 session_start();
 $traderName = $_SESSION['trader_name'] ?? 'Trader';
+
+// check this is set during login or future backend
+$isNewTrader = $_SESSION['is_new_trader'] ?? false; // default to new trader
+$homeLink = $isNewTrader ? 'traderdashboard.php' : 'traderdashboard_existing.php';
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +29,10 @@ $traderName = $_SESSION['trader_name'] ?? 'Trader';
     <!-- HEADER -->
     <header class="bg-light"style="margin-top: -10px;">
         <div class="container-fluid d-flex align-items-center flex-wrap">
-            <img src="../assets/images/2.png" alt="Trader Logo" class="ms-2 " />
+            <a href="../pages/<?php echo $homeLink; ?>">
+    <img src="../assets/images/2.png" alt="Trader Logo" class="ms-2" style="cursor: pointer;" />
+</a>
+
             <h2 class="ms-2 mb-0">Trader <br>Center</h2>
 
          <!-- Breadcrumb Navigation -->
@@ -31,7 +40,8 @@ $traderName = $_SESSION['trader_name'] ?? 'Trader';
       <ol class="breadcrumb mb-0">
         <li class="breadcrumb-item">
         
-  <a href="../pages/traderdashboard.php" class="text-decoration-none text-dark">Home</a>
+  <a href="../pages/<?php echo $homeLink; ?>" class="text-decoration-none text-dark">Home</a>
+
 
 
         </li>
@@ -41,18 +51,19 @@ $traderName = $_SESSION['trader_name'] ?? 'Trader';
     'traderaddproduct.php' => 'Add Product',
     'traderupdateproduct.php' => 'Update Product',
     'tradermanageproducts.php' => 'Manage Products',
-    'tardernotifications.php'=> 'Notifications',
-    'tarderorders.php' => 'View Orders',
+    'tradernotifications.php'=> 'Notifications',
+    'traderorders.php' => 'View Orders',
     'traderproductdetail.php' => 'Product Details'   // Add more mappings as needed
   ];
   $currentPage = basename($_SERVER['PHP_SELF']);
 ?>
 
-<?php if ($currentPage !== 'traderdashboard.php') { ?>
+<?php if (!in_array($currentPage, ['traderdashboard.php', 'traderdashboard_existing.php'])): ?>
   <li class="breadcrumb-item active" aria-current="page">
     <?= $pageMap[$currentPage] ?? ucfirst(str_replace('_', ' ', basename($currentPage, '.php'))) ?>
   </li>
-<?php } ?>
+<?php endif; ?>
+
 
       </ol>
     </nav>
@@ -61,5 +72,3 @@ $traderName = $_SESSION['trader_name'] ?? 'Trader';
         
         
     </header>
-
-  

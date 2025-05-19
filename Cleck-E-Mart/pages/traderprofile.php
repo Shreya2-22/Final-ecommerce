@@ -32,10 +32,24 @@
             <?php echo $defaultImage; ?>
           <?php endif; ?>
           
-          <form action="upload_photo.php" method="POST" enctype="multipart/form-data" class="mt-2">
-            <input type="file" name="profile_image" class="form-control w-auto mb-2" required>
-            <button type="submit" class="btn btn-outline-primary btn-sm">Upload Photo</button>
-          </form>
+        <form action="traderupload_photo.php" method="POST" enctype="multipart/form-data" class="mt-2 d-flex align-items-center gap-2">
+  <!-- Hidden file input accepts images only -->
+  <input type="file" name="profile_image" id="profileImageInput" style="display: none;" accept="image/*" required>
+  
+  <!-- Upload Photo button triggers file input -->
+  <button type="button" class="btn btn-outline-primary btn-sm" onclick="document.getElementById('profileImageInput').click();">
+    Upload Photo
+  </button>
+
+  <!-- Delete button (show only if photo exists) -->
+  <?php if (!empty($trader['profile_image'])): ?>
+    <a href="traderdelete_photo.php" class="btn btn-success btn-sm" onclick="return confirm('Are you sure you want to delete the current photo?');">
+      Delete Current Photo
+    </a>
+  <?php endif; ?>
+</form>
+
+
         </div>
 
         <!-- Profile Form -->

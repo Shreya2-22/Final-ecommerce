@@ -7,17 +7,19 @@
   <div class="footer-top">
     <div class="container text-center">
       <!-- Social Icons -->
-      <div class="footer-icons mb-4 fs-3">
-  <a href="#" target="_blank" class="text-dark mx-3" aria-label="Instagram">
+  <div class="footer-icons mb-4 fs-3">
+  <a href="https://www.instagram.com/cleck_emart/" target="_blank" class="text-dark mx-3" aria-label="Instagram">
     <i class="fab fa-instagram"></i>
   </a>
-  <a href="#" class="text-dark mx-3" aria-label="Email">
-    <i class="fas fa-envelope"></i>
-  </a>
-  <a href="#" target="_blank" class="text-dark mx-3" aria-label="Facebook">
+  <a href="https://www.facebook.com/profile.php?id=61576018097154" target="_blank" class="text-dark mx-3" aria-label="Facebook">
     <i class="fab fa-facebook-f"></i>
   </a>
+  <a href="https://mail.google.com/mail/?view=cm&to=cleckemart@gmail.com" target="_blank"  class="text-dark mx-3"  rel="noopener noreferrer">
+  <i class="fas fa-envelope"></i>
+</a>
+
 </div>
+
 
 
       <!-- Links -->
@@ -48,7 +50,7 @@
         Dear <strong><?php echo htmlspecialchars($traderName); ?></strong>, do you want to logout?
       </div>
       <div class="modal-footer justify-content-center">
-        <a href="..pages/traderlogout.php" class="btn btn-danger px-4">Logout</a>
+        <a href="../pages/traderlogout.php" class="btn btn-danger px-4">Logout</a>
         <button type="button" class="btn btn-secondary px-4" id="cancelLogout" data-bs-dismiss="modal">Cancel</button>
       </div>
     </div>
@@ -128,7 +130,7 @@
   });
 </script>
 
-// Change password 
+
 <script>
 document.getElementById('changePasswordForm').addEventListener('submit', function(e) {
   const newPassword = document.getElementById('newPassword').value;

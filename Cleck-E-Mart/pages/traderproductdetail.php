@@ -6,7 +6,7 @@
 
     <main class="col-12 col-md content-box border me-3 py-4 px-4">
       <div class="mx-auto" style="max-width: 700px;">
-        <h3 class="text-center mb-5 fw-bold mt-5">product Details</h3>
+        <h3 class="text-center mb-5 fw-bold mt-5">Product Details</h3>
 
         <form action="traderproductdetailform.php" method="GET">
           <!-- Category Selection -->
