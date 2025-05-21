@@ -61,7 +61,7 @@ if (isset($_SESSION['id'])) {
 
     <div class="mt-3 text-center small">
       <div class="mb-1">
-        Forgot password? <a href="#" class="text-decoration-none">Click here</a>
+        Forgot password? <a href="pass_reset.php" class="text-decoration-none">Click here</a>
       </div>
       <div class="mb-1">
         Don’t have an account yet? <a href="register_customer.php" class="text-decoration-none">Register here</a>

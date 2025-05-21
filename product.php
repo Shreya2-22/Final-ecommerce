@@ -116,7 +116,7 @@ function buildQueryString($overrides = []) {
     .card .rating img { height: 14px; }
   </style>
 </head>
-<body class="bg-light">
+<body style="background-color: #F0F8E0;">
   <div class="container py-5">
     <div class="row">
       <!-- Sidebar Filters -->

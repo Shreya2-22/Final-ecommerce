@@ -87,7 +87,7 @@ while ($c = oci_fetch_assoc($stm)) {
   <?php include "includes/header.php"; ?>
   <link rel="stylesheet" href="css/style_temp.css">
 </head>
-<body class="bg-light">
+<body style="background-color: #F0F8E0;">
 
   <div class="container py-5">
     <!-- Flash messages -->

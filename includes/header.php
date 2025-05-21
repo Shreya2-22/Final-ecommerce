@@ -1,21 +1,25 @@
+<?php
+// includes/header.php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Cleck-E-Mart</title>
+  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <!-- Your custom styles -->
   <link rel="stylesheet" href="css/header_footer.css" />
 </head>
-
 <body>
-  <!-- NAVBAR -->
   <nav class="navbar navbar-expand-lg navbar-custom py-0 shadow-sm">
     <div class="container-fluid px-4">
-
-      <!-- Logo -->
       <a class="navbar-brand d-flex align-items-center" href="index.php">
         <img src="images/logo.png" alt="Logo" class="logo-img" />
       </a>
@@ -23,67 +27,69 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
-        <div class="ms-3">
-          <ul class="navbar-nav mb-2 mb-lg-0">
-            <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                All Categories
-              </a>
-              <ul class="dropdown-menu">
-                <li>
-                  <a class="dropdown-item" href="product.php?catg=143">
-                    Greengrocer
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="product.php?catg=145">
-                    Butcher
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="product.php?catg=142">
-                    Fishmonger
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="product.php?catg=141">
-                    Bakery
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="product.php?catg=144">
-                    Delicatessen
-                  </a>
-                </li>
-              </ul>
-
+        <ul class="navbar-nav mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+              All Categories
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="product.php?catg=143">Greengrocer</a></li>
+              <li><a class="dropdown-item" href="product.php?catg=145">Butcher</a></li>
+              <li><a class="dropdown-item" href="product.php?catg=142">Fishmonger</a></li>
+              <li><a class="dropdown-item" href="product.php?catg=141">Bakery</a></li>
+              <li><a class="dropdown-item" href="product.php?catg=144">Delicatessen</a></li>
+            </ul>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="index.php#bestsellers">Best Sellers</a></li>
+          <li class="nav-item"><a class="nav-link" href="contactus.php">Contact Us</a></li>
+          <?php if (!isset($_SESSION['id'])): ?>
+            <li class="nav-item">
+              <a class="nav-link" href="switch_to_trader.php">Become a Trader</a>
             </li>
-            <li class="nav-item"><a class="nav-link" href="index.php#bestsellers">Best Sellers</a></li>
-            <li class="nav-item"><a class="nav-link" href="contactus.php">Contact Us</a></li>
-            <?php if (!isset($_SESSION['id'])): ?>
-              <li class="nav-item">
-                <a class="nav-link" href="switch_to_trader.php">Become a Trader</a>
-              </li>
-            <?php endif; ?>
+          <?php endif; ?>
+        </ul>
 
-          </ul>
-        </div>
         <div class="d-flex align-items-center">
-          <input class="form-control search-box me-3" type="search" placeholder="Search" />
-          <?php
-          if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-          }
-          if (isset($_SESSION['id']) && $_SESSION['role'] == 'customer') {
-            echo '<a href="wishlist.php" class="icon-btn"><i class="fas fa-heart"></i></a>';
-          } else {
-            echo '<a href="login.php" class="icon-btn" title="Login required"><i class="fas fa-heart"></i></a>';
-          }
-          ?>
+          <!-- Search -->
+          <form action="product.php" method="get" class="me-3">
+            <div class="input-group">
+              <span class="input-group-text bg-white border-end-0">
+                <i class="fas fa-search text-muted"></i>
+              </span>
+              <input
+                type="search" name="search"
+                class="form-control border-start-0 search-box"
+                placeholder="Search by product, shop, price…"
+                value="<?= htmlspecialchars($_GET['search'] ?? '') ?>"
+              />
+            </div>
+          </form>
+
+          <!-- Wishlist -->
+          <?php if (isset($_SESSION['id']) && $_SESSION['role'] === 'customer'): ?>
+            <a href="wishlist.php" class="icon-btn"><i class="fas fa-heart"></i></a>
+          <?php else: ?>
+            <a href="login.php" class="icon-btn" title="Login required"><i class="fas fa-heart"></i></a>
+          <?php endif; ?>
+
+          <!-- Cart -->
           <a href="cart.php" class="icon-btn"><i class="fas fa-shopping-cart"></i></a>
+
+          <!-- Profile / Login -->
           <?php if (isset($_SESSION['id'])): ?>
-            <a href="logout.php" class="icon-btn"><i class="fas fa-sign-out-alt"></i></a>
+            <div class="dropdown" >
+              <a class="icon-btn dropdown-toggle" href="#" role="button" id="profileMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-user-circle"></i>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileMenu">
+                <li><a class="dropdown-item" href="customer_profile_setting.php"><i class="fas fa-user-cog me-2"></i>Profile Settings</a></li>
+                <li><a class="dropdown-item" href="myorder.php"><i class="fas fa-box me-2"></i>My Orders</a></li>
+                <li><a class="dropdown-item" href="reviews.php"><i class="fas fa-star me-2"></i>My Reviews</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item text-danger" href="logout.php"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+              </ul>
+            </div>
           <?php else: ?>
             <a href="login.php" class="icon-btn"><i class="fas fa-user"></i></a>
           <?php endif; ?>
@@ -91,13 +97,15 @@
       </div>
     </div>
   </nav>
-  <!-- NAVBAR END -->
-  <?php if (isset($_SESSION['passmessage']) || isset($_SESSION['failmessage'])): ?>
-    <div id="alert-wrapper" class="position-relative z-3">
-      <div class="container mt-0">
-        <div class="alert <?= isset($_SESSION['passmessage']) ? 'alert-success' : 'alert-danger' ?> alert-dismissible fade show shadow-sm small px-3 py-2 text-center" role="alert" style="margin-bottom: 0;">
+  <!-- end NAVBAR -->
+
+  <!-- Flash messages -->
+  <?php if (!empty($_SESSION['passmessage']) || !empty($_SESSION['failmessage'])): ?>
+    <div class="position-relative z-3">
+      <div class="container mt-2">
+        <div class="alert <?= isset($_SESSION['passmessage'])?'alert-success':'alert-danger' ?> alert-dismissible fade show" role="alert">
           <?= $_SESSION['passmessage'] ?? $_SESSION['failmessage']; ?>
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
       </div>
     </div>
@@ -105,14 +113,8 @@
   <?php endif; ?>
 
   <script>
-    // Auto-dismiss after 3 seconds
     document.addEventListener("DOMContentLoaded", () => {
       const alertEl = document.querySelector(".alert");
-      if (alertEl) {
-        setTimeout(() => {
-          const bsAlert = bootstrap.Alert.getOrCreateInstance(alertEl);
-          bsAlert.close();
-        }, 3000);
-      }
+      if (alertEl) setTimeout(() => bootstrap.Alert.getInstance(alertEl).close(), 3000);
     });
   </script>

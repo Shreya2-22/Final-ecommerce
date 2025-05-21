@@ -15,7 +15,7 @@ include "includes/header.php";
         style="height: 500px; object-fit: cover;" />
 
       <!-- Shop Now Button Overlay -->
-      <a href="product.php" class="btn position-absolute px-4 py-2 text-white"
+      <a href="product.php?catg=143" class="btn position-absolute px-4 py-2 text-white"
         style="background-color: #C49A6C; border-radius: 8px; bottom: 80px; left: 57.5%; transform: translateX(-50%);">
         Shop Now
       </a>
@@ -25,7 +25,7 @@ include "includes/header.php";
     <div class="carousel-item position-relative">
       <img src="images/breadslider.jpg" class="d-block w-100" alt="Slide 2"
         style="height: 500px; object-fit: cover;" />
-      <a href="product.php" class="btn position-absolute px-4 py-2 text-white"
+      <a href="product.php?catg=141" class="btn position-absolute px-4 py-2 text-white"
         style="background-color: #C49A6C; border-radius: 8px; bottom: 80px; left: 57.5%; transform: translateX(-50%);">
         Shop Now
       </a>
@@ -35,7 +35,7 @@ include "includes/header.php";
     <div class="carousel-item position-relative">
       <img src="images/fishmonger_slider.jpg" class="d-block w-100" alt="Slide 3"
         style="height: 500px; object-fit: cover;" />
-      <a href="product.php" class="btn position-absolute px-4 py-2 text-white"
+      <a href="product.php?catg=142" class="btn position-absolute px-4 py-2 text-white"
         style="background-color: #C49A6C; border-radius: 8px; bottom: 80px; left: 72.5%; transform: translateX(-50%);">
         Shop Now
       </a>
@@ -45,7 +45,7 @@ include "includes/header.php";
     <div class="carousel-item position-relative">
       <img src="images/butcher_slider.jpg" class="d-block w-100" alt="Slide 3"
         style="height: 500px; object-fit: cover;" />
-      <a href="product.php" class="btn position-absolute px-4 py-2 text-white"
+      <a href="product.php?catg=145" class="btn position-absolute px-4 py-2 text-white"
         style="background-color: #C49A6C; border-radius: 8px; bottom: 80px; left: 72.5%; transform: translateX(-50%);">
         Shop Now
       </a>
@@ -56,7 +56,7 @@ include "includes/header.php";
     <div class="carousel-item position-relative">
       <img src="images/delicatessen_slider.jpg" class="d-block w-100" alt="Slide 3"
         style="height: 500px; object-fit: cover;" />
-      <a href="product.php" class="btn position-absolute px-4 py-2 text-white"
+      <a href="product.php?catg=144" class="btn position-absolute px-4 py-2 text-white"
         style="background-color: #C49A6C; border-radius: 8px; bottom: 80px; left: 75.5%; transform: translateX(-50%);">
         Shop Now
       </a>
