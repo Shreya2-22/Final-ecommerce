@@ -23,7 +23,7 @@ include "includes/header.php";
 
     <!-- Slide 2 -->
     <div class="carousel-item position-relative">
-      <img src="images/bread_slider.jpg" class="d-block w-100" alt="Slide 2"
+      <img src="images/breadslider.jpg" class="d-block w-100" alt="Slide 2"
         style="height: 500px; object-fit: cover;" />
       <a href="#" class="btn position-absolute px-4 py-2 text-white"
         style="background-color: #C49A6C; border-radius: 8px; bottom: 80px; left: 57.5%; transform: translateX(-50%);">
@@ -33,10 +33,31 @@ include "includes/header.php";
 
     <!-- Slide 3 -->
     <div class="carousel-item position-relative">
-      <img src="images/Slider3.png" class="d-block w-100" alt="Slide 3"
+      <img src="images/fishmonger_slider.jpg" class="d-block w-100" alt="Slide 3"
         style="height: 500px; object-fit: cover;" />
       <a href="#" class="btn position-absolute px-4 py-2 text-white"
-        style="background-color: #C49A6C; border-radius: 8px; bottom: 80px; left: 57.5%; transform: translateX(-50%);">
+        style="background-color: #C49A6C; border-radius: 8px; bottom: 80px; left: 72.5%; transform: translateX(-50%);">
+        Shop Now
+      </a>
+    </div>
+
+    <!-- Slide 4 -->
+    <div class="carousel-item position-relative">
+      <img src="images/butcher_slider.jpg" class="d-block w-100" alt="Slide 3"
+        style="height: 500px; object-fit: cover;" />
+      <a href="#" class="btn position-absolute px-4 py-2 text-white"
+        style="background-color: #C49A6C; border-radius: 8px; bottom: 80px; left: 72.5%; transform: translateX(-50%);">
+        Shop Now
+      </a>
+    </div>
+
+
+    <!-- Slide 5 -->
+    <div class="carousel-item position-relative">
+      <img src="images/delicatessen_slider.jpg" class="d-block w-100" alt="Slide 3"
+        style="height: 500px; object-fit: cover;" />
+      <a href="#" class="btn position-absolute px-4 py-2 text-white"
+        style="background-color: #C49A6C; border-radius: 8px; bottom: 80px; left: 75.5%; transform: translateX(-50%);">
         Shop Now
       </a>
     </div>

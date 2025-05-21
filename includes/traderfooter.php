@@ -16,13 +16,13 @@
     <div class="container text-center">
       <!-- Social Icons -->
       <div class="footer-icons mb-4 fs-3">
-        <a href="#" target="_blank" class="footer-icon mx-3" aria-label="Instagram">
+        <a href="https://www.instagram.com/cleck_emart/" target="_blank" class="footer-icon mx-3" aria-label="Instagram">
           <i class="fab fa-instagram"></i>
         </a>
-        <a href="#" class="footer-icon mx-3" aria-label="Email">
+        <a href="https://mail.google.com/mail/?view=cm&to=cleckemart@gmail.com" class="footer-icon mx-3" aria-label="Email">
           <i class="fas fa-envelope"></i>
         </a>
-        <a href="#" target="_blank" class="footer-icon mx-3" aria-label="Facebook">
+        <a href="https://www.facebook.com/profile.php?id=61576018097154" target="_blank" class="footer-icon mx-3" aria-label="Facebook">
           <i class="fab fa-facebook-f"></i>
         </a>
       </div>

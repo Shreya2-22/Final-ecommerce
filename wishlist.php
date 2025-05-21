@@ -146,7 +146,7 @@ include "includes/header.php";
                         <td><?php echo $prodrow['STOCK']; ?></td>
 
                         <td>
-                            <a href="addtocart.php?prod=<?php echo $prodrow['PRODUCT_ID']; ?>" class="btn btn-addcart me-2">Add to Cart</a>
+                            
                             <a href="delete_wishlist.php?id=<?php echo $prodrow['PRODUCT_ID']; ?>" class="btn btn-delete" onclick="return confirm('Remove from wishlist?')">
                                 <i class="fa-solid fa-trash"></i>
                             </a>

@@ -34,7 +34,7 @@
                 <li><a class="dropdown-item" href="#">Greengrocer</a></li>
                 <li><a class="dropdown-item" href="#">Butcher</a></li>
                 <li><a class="dropdown-item" href="#">Fishmonger</a></li>
-                <li><a class="dropdown-item" href="#">Bakery</a></li>
+                <li><a class="dropdown-item" href="bakery.php">Bakery</a></li>
                 <li><a class="dropdown-item" href="#">Delicatessen</a></li>
               </ul>
             </li>
@@ -60,7 +60,7 @@
             echo '<a href="login.php" class="icon-btn" title="Login required"><i class="fas fa-heart"></i></a>';
           }
           ?>
-          <a href="#" class="icon-btn"><i class="fas fa-shopping-cart"></i></a>
+          <a href="cart.php" class="icon-btn"><i class="fas fa-shopping-cart"></i></a>
           <?php if (isset($_SESSION['id'])): ?>
             <a href="logout.php" class="icon-btn"><i class="fas fa-sign-out-alt"></i></a>
           <?php else: ?>
