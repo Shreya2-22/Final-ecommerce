@@ -32,11 +32,11 @@ function clearMsg()
 
       <div class="col-md-3 mb-4">
         <ul class="list-unstyled">
-          <li><a href="#">Greengrocer</a></li>
-          <li><a href="#">Butcher</a></li>
-          <li><a href="#">Fishmonger</a></li>
-          <li><a href="#">Bakery</a></li>
-          <li><a href="#">Delicatessen</a></li>
+          <li><a href="product.php?catg=143">Greengrocer</a></li>
+          <li><a href="product.php?catg=145">Butcher</a></li>
+          <li><a href="product.php?catg=142">Fishmonger</a></li>
+          <li><a href="product.php?catg=141">Bakery</a></li>
+          <li><a href="product.php?catg=144">Delicatessen</a></li>
         </ul>
       </div>
 

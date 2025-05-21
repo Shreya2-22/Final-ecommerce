@@ -110,6 +110,9 @@ while ($c = oci_fetch_assoc($stm)) {
       <div class="col-lg-8 mb-4">
         <div class="card shadow-sm">
           <div class="card-header bg-white">
+            <a href="product.php" class="fw-semibold text-decoration-none" style="color:rgb(108, 161, 196); font-size: 1.15rem;">
+      Shop More <-
+    </a>
             <h5 class="mb-0">Your Shopping Cart</h5>
           </div>
           <div class="card-body p-0">

@@ -31,12 +31,33 @@
                 All Categories
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Greengrocer</a></li>
-                <li><a class="dropdown-item" href="#">Butcher</a></li>
-                <li><a class="dropdown-item" href="#">Fishmonger</a></li>
-                <li><a class="dropdown-item" href="bakery.php">Bakery</a></li>
-                <li><a class="dropdown-item" href="#">Delicatessen</a></li>
+                <li>
+                  <a class="dropdown-item" href="product.php?catg=143">
+                    Greengrocer
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="product.php?catg=145">
+                    Butcher
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="product.php?catg=142">
+                    Fishmonger
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="product.php?catg=141">
+                    Bakery
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="product.php?catg=144">
+                    Delicatessen
+                  </a>
+                </li>
               </ul>
+
             </li>
             <li class="nav-item"><a class="nav-link" href="index.php#bestsellers">Best Sellers</a></li>
             <li class="nav-item"><a class="nav-link" href="contactus.php">Contact Us</a></li>
