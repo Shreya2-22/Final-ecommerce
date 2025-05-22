@@ -1,112 +1,99 @@
 <?php
-// pass_change.php
-session_start();
-require 'includes/connect.php';
+include "includes/connect.php";
 
-// 1) Gather & validate params
-$token  = $_GET['token']  ?? '';
-$userId = (int)($_GET['id'] ?? 0);
-
-if (!$token || !$userId) {
-    $_SESSION['failmessage'] = 'Invalid reset link.';
-    header('Location: pass_reset.php');
-    exit;
+if (isset($_GET['token']) && isset($_GET['id'])) {
+    $token = $_GET['token'];
+    $id = $_GET['id'];
+    $sql = "SELECT * FROM PASSWORD_RESET WHERE TOKEN='$token' AND FK1_USER_ID=$id";
+    $result = oci_parse($conn, $sql);
+    oci_execute($result);
+    if (!oci_fetch_assoc($result)) {
+        $_SESSION['failmessage'] = "Invalid token";
+        header('Location: index.php');
+    }
+} else {
+    header('Location: index.php');
 }
 
-// 2) Case-insensitive token check
-$sql = "
-  SELECT 1
-    FROM PASSWORD_RESET
-   WHERE LOWER(token)       = LOWER('{$token}')
-     AND fk1_user_id        = {$userId}
-";
-$stm = oci_parse($conn, $sql);
-oci_execute($stm);
-if (!oci_fetch($stm)) {
-    $_SESSION['failmessage'] = 'Invalid or expired reset link.';
-    header('Location: pass_reset.php');
-    exit;
-}
-
-// 3) Handle form submission
-$errors = [];
 if (isset($_POST['submit'])) {
-    $new     = trim($_POST['newpass'] ?? '');
-    $confirm = trim($_POST['conpass'] ?? '');
+    $newpass = $_POST['newpass'];
+    $conpass = $_POST['conpass'];
+    $error = 0;
 
-    if ($new === '') {
-        $errors['newpass'] = 'Please enter a new password.';
+    if ($newpass == null) {
+        $error_newpass = "Please enter your new password";
+        $error++;
     }
-    if ($confirm === '') {
-        $errors['conpass'] = 'Please confirm your new password.';
-    } elseif ($new !== $confirm) {
-        $errors['conpass'] = 'Passwords do not match.';
+    if ($conpass != $newpass) {
+        $error_conpass = "Password did not match";
+        $error++;
     }
 
-    if (empty($errors)) {
-        // Update password
-        $hash   = password_hash($new, PASSWORD_DEFAULT);
-        $updSql = "
-          UPDATE user_master
-             SET password = '{$hash}'
-           WHERE user_id  = {$userId}
-        ";
-        $uStm = oci_parse($conn, $updSql);
-        oci_execute($uStm, OCI_COMMIT_ON_SUCCESS);
-
-        // Delete token
-        $delSql = "
-          DELETE FROM PASSWORD_RESET
-           WHERE LOWER(token)       = LOWER('{$token}')
-             AND fk1_user_id        = {$userId}
-        ";
-        $dStm = oci_parse($conn, $delSql);
-        oci_execute($dStm, OCI_COMMIT_ON_SUCCESS);
-
-        $_SESSION['passmessage'] = 'Your password has been reset. Please log in.';
+    if ($error == 0) {
+        $newpass = password_hash($newpass, PASSWORD_DEFAULT);
+        $pass_update_query = "UPDATE user_master SET PASSWORD='$newpass' WHERE USER_ID=$id";
+        $passResult = oci_parse($conn, $pass_update_query);
+        oci_execute($passResult);
+        $_SESSION['passmessage'] = "Password changed successfully";
         header('Location: login.php');
-        exit;
     }
 }
 
-include 'includes/header.php';
+include "includes/header.php";
 ?>
 
-<div class="container py-5">
-  <h2 class="mb-4 text-center">Reset Your Password</h2>
-  <?php if (!empty($_SESSION['failmessage'])): ?>
-    <div class="alert alert-danger mb-4">
-      <?= $_SESSION['failmessage']; unset($_SESSION['failmessage']); ?>
-    </div>
-  <?php endif; ?>
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8 col-sm-10">
+            <div class="border rounded shadow bg-white p-4">
+                <form method="POST" action="">
+                    <h1 class="pb-3 text-center">Reset Password</h1>
 
-  <div class="row justify-content-center">
-    <div class="col-md-6 col-lg-5">
-      <form method="POST" novalidate>
-        <div class="mb-3">
-          <label class="form-label">New Password *</label>
-          <input
-            type="password" name="newpass"
-            class="form-control <?= isset($errors['newpass'])?'is-invalid':'' ?>"
-          >
-          <div class="invalid-feedback"><?= $errors['newpass'] ?? '' ?></div>
+                    <div class="form-group row align-items-center">
+                        <label class="col-lg-4 col-form-label">New Password</label>
+                        <div class="col-lg-8">
+                            <input type="password" name="newpass" class="form-control" placeholder="Enter new password">
+                            <?php if (isset($error_newpass)) echo '<div class="error mt-2">' . $error_newpass . '</div>'; ?>
+                        </div>
+                    </div>
+
+                    <div class="form-group row align-items-center">
+                        <label class="col-lg-4 col-form-label">Confirm Password</label>
+                        <div class="col-lg-8">
+                            <input type="password" name="conpass" class="form-control" placeholder="Confirm new password">
+                            <?php if (isset($error_conpass)) echo '<div class="error mt-2">' . $error_conpass . '</div>'; ?>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button type="submit" name="submit" class="btn btn-success px-4">SUBMIT</button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Confirm Password *</label>
-          <input
-            type="password" name="conpass"
-            class="form-control <?= isset($errors['conpass'])?'is-invalid':'' ?>"
-          >
-          <div class="invalid-feedback"><?= $errors['conpass'] ?? '' ?></div>
-        </div>
-        <div class="d-grid">
-          <button type="submit" name="submit" class="btn btn-primary">
-            Submit
-          </button>
-        </div>
-      </form>
     </div>
-  </div>
 </div>
 
-<?php include 'includes/footer.php'; clearMsg(); ?>
+<?php include "includes/footer.php" ?>
+
+<style>
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+body {
+    display: flex;
+    flex-direction: column;
+}
+.container {
+    flex: 1;
+}
+footer {
+    margin-top: auto;
+}
+.error {
+    color: red;
+    font-style: italic;
+}
+</style>
