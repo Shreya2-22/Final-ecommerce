@@ -1,4 +1,7 @@
-<?php include 'includes/header.php'; ?>
+
+<?php 
+$pageTitle = "Contact Us – Cleck-E-Mart";
+include 'includes/header.php'; ?>
 
 <?php
 if (isset($_POST['submit'])) {

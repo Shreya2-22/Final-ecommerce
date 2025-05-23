@@ -27,9 +27,11 @@ if (isset($_POST['submit'])) {
 
 				$_SESSION['passmessage'] = "Logged in Successfully";
 				if ($row['ROLE'] == 'trader') {
-					header("Location: traderdashboard.php"); //  Go to trader-specific page
+					header("Location: traderdashboard.php");
+				} elseif ($row['ROLE'] == 'admin') {
+					header("Location: manageTrader.php"); // admin page
 				} else {
-					header("Location: index.php"); // For customer/admin
+					header("Location: index.php"); // customer page
 				}
 				exit();
 			} elseif ($row['STATUS'] != 'Verified') {

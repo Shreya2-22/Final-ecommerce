@@ -202,7 +202,7 @@ if (isset($_SESSION['id'])) {
 			//echo $query;
 		}
 	}
-
+$pageTitle = "Customer Registration";
 	include "includes/header.php";
 
 	?>

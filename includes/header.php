@@ -9,7 +9,7 @@ if (session_status() === PHP_SESSION_NONE) {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Cleck-E-Mart</title>
+  <title><?= htmlspecialchars($pageTitle ?? "Cleck-E-Mart") ?></title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <!-- Font Awesome -->
@@ -28,7 +28,12 @@ if (session_status() === PHP_SESSION_NONE) {
       </button>
       <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
         <ul class="navbar-nav mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+          <li class="nav-item">
+            <a class="nav-link" href="<?= (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') ? 'manageTrader.php' : 'index.php' ?>">
+              <?= (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') ? 'Manage Trader' : 'Home' ?>
+            </a>
+          </li>
+
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
               All Categories
@@ -66,19 +71,11 @@ if (session_status() === PHP_SESSION_NONE) {
             </div>
           </form>
 
-          <!-- Wishlist -->
+          <!-- Icons logic -->
           <?php if (isset($_SESSION['id']) && $_SESSION['role'] === 'customer'): ?>
             <a href="wishlist.php" class="icon-btn"><i class="fas fa-heart"></i></a>
-          <?php else: ?>
-            <a href="login.php" class="icon-btn" title="Login required"><i class="fas fa-heart"></i></a>
-          <?php endif; ?>
-
-          <!-- Cart -->
-          <a href="cart.php" class="icon-btn"><i class="fas fa-shopping-cart"></i></a>
-
-          <!-- Profile / Login -->
-          <?php if (isset($_SESSION['id'])): ?>
-            <div class="dropdown" >
+            <a href="cart.php" class="icon-btn"><i class="fas fa-shopping-cart"></i></a>
+            <div class="dropdown">
               <a class="icon-btn dropdown-toggle" href="#" role="button" id="profileMenu" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fas fa-user-circle"></i>
               </a>
@@ -90,31 +87,39 @@ if (session_status() === PHP_SESSION_NONE) {
                 <li><a class="dropdown-item text-danger" href="logout.php"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
               </ul>
             </div>
+
+          <?php elseif (isset($_SESSION['id']) && $_SESSION['role'] === 'trader'): ?>
+            <a href="cart.php" class="icon-btn"><i class="fas fa-shopping-cart"></i></a>
+            <a href="logout.php" class="icon-btn text-black"><i class="fas fa-sign-out-alt"></i></a>
+
+          <?php elseif (isset($_SESSION['id']) && $_SESSION['role'] === 'admin'): ?>
+            <a href="logout.php" class="icon-btn text-black"><i class="fas fa-sign-out-alt"></i></a>
+
           <?php else: ?>
+            <a href="login.php" class="icon-btn" title="Login required"><i class="fas fa-heart"></i></a>
+            <a href="cart.php" class="icon-btn"><i class="fas fa-shopping-cart"></i></a>
             <a href="login.php" class="icon-btn"><i class="fas fa-user"></i></a>
           <?php endif; ?>
         </div>
       </div>
     </div>
   </nav>
-  <!-- end NAVBAR -->
 
   <!-- Flash messages -->
   <?php if (!empty($_SESSION['passmessage']) || !empty($_SESSION['failmessage'])): ?>
     <div class="position-relative z-3">
       <div class="container mt-2">
-        <div class="alert <?= isset($_SESSION['passmessage'])?'alert-success':'alert-danger' ?> alert-dismissible fade show" role="alert">
+        <div class="alert <?= isset($_SESSION['passmessage']) ? 'alert-success' : 'alert-danger' ?> alert-dismissible fade show" role="alert" id="alert-box">
           <?= $_SESSION['passmessage'] ?? $_SESSION['failmessage']; ?>
           <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
       </div>
     </div>
+    <script>
+      setTimeout(() => {
+        const alertEl = document.getElementById('alert-box');
+        if (alertEl) bootstrap.Alert.getOrCreateInstance(alertEl).close();
+      }, 3000);
+    </script>
     <?php unset($_SESSION['passmessage'], $_SESSION['failmessage']); ?>
   <?php endif; ?>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const alertEl = document.querySelector(".alert");
-      if (alertEl) setTimeout(() => bootstrap.Alert.getInstance(alertEl).close(), 3000);
-    });
-  </script>

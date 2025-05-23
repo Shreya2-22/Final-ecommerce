@@ -109,7 +109,9 @@ function buildQueryString($overrides = []) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Products – Cleck-E-Mart</title>
-  <?php include 'includes/header.php'; ?>
+  <?php
+  $pageTitle = "Product";
+   include 'includes/header.php'; ?>
   <style>
     /* Card hover lift effect */
     .card:hover { transform: translateY(-5px); transition: transform 0.3s; }
@@ -130,7 +132,8 @@ function buildQueryString($overrides = []) {
             </div>
             <h5>Category</h5>
             <?php
-              $tr = oci_parse($conn, "SELECT USER_ID, SHOP_TYPE FROM USER_MASTER WHERE ROLE='trader'");
+              $tr = oci_parse($conn, "SELECT USER_ID, SHOP_TYPE FROM USER_MASTER WHERE ROLE='trader' AND STATUS='Verified'");
+
               oci_execute($tr);
               while ($t = oci_fetch_assoc($tr)): ?>
                 <div class="form-check">

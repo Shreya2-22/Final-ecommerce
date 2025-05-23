@@ -26,7 +26,7 @@ $orders = [];
 while ($row = oci_fetch_assoc($stm)) {
     $orders[] = $row;
 }
-
+$pageTitle = "My Orders";
 include 'includes/header.php';
 ?>
 <div class="container py-5">

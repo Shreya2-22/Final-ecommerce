@@ -1,6 +1,7 @@
 <?php
 session_start();
 include "includes/connect.php";
+$pageTitle = "Wishlist";
 include "includes/header.php";
 ?>
 

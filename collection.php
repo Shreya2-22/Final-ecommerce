@@ -1,3 +1,5 @@
+<title>Collection slot & checkout</title>
+
 <?php
 session_start();
 require_once "includes/connect.php";

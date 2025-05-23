@@ -1,6 +1,7 @@
 <?php
 
 include "includes/connect.php";
+$pageTitle = "Home";
 include "includes/header.php";
 //session_destroy();
 ?>
@@ -16,7 +17,7 @@ include "includes/header.php";
 
       <!-- Shop Now Button Overlay -->
       <a href="product.php?catg=143" class="btn position-absolute px-4 py-2 text-white"
-        style="background-color: #C49A6C; border-radius: 8px; bottom: 80px; left: 57.5%; transform: translateX(-50%);">
+        style="background-color: #C49A6C; border-radius: 8px; bottom: 80px; left: 67.5%; transform: translateX(-50%);">
         Shop Now
       </a>
     </div>
@@ -87,7 +88,8 @@ include "includes/header.php";
 
   <div class="row justify-content-center text-center g-4">
     <?php
-    $query = "SELECT * FROM user_master WHERE ROLE = 'trader'";
+    $query = "SELECT * FROM user_master WHERE ROLE = 'trader' AND STATUS = 'Verified'";
+
     $result = oci_parse($conn, $query);
     oci_execute($result);
 
@@ -119,7 +121,12 @@ include "includes/header.php";
 
   <div class="row justify-content-center g-4">
     <?php
-    $query = "SELECT P.*, S.SHOP_NAME FROM PRODUCT P JOIN SHOP S ON P.FK1_SHOP_ID = S.SHOP_ID WHERE DISPLAY_TYPE = 'bestselling'";
+    $query = "SELECT P.*, S.SHOP_NAME 
+FROM PRODUCT P 
+JOIN SHOP S ON P.FK1_SHOP_ID = S.SHOP_ID 
+JOIN USER_MASTER U ON S.FK1_USER_ID = U.USER_ID 
+WHERE DISPLAY_TYPE = 'bestselling' AND U.STATUS = 'Verified'
+";
     $result = oci_parse($conn, $query);
     oci_execute($result);
 

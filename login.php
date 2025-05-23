@@ -1,4 +1,6 @@
-<?php include("includes/header.php"); ?>
+<?php 
+$pageTitle = "Login page – Cleck-E-Mart";
+include("includes/header.php"); ?>
 <?php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -13,7 +15,7 @@ if (isset($_SESSION['id'])) {
         header("Location: traderdashboard.php");
         exit();
     } elseif ($_SESSION['role'] === 'admin') {
-        header("Location: admin_dashboard.php"); // Replace if your admin panel is named differently
+        header("Location: manageTrader.php"); // Replace if your admin panel is named differently
         exit();
     }
 }

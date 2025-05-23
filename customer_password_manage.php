@@ -60,7 +60,7 @@ if (isset($_POST['btnSubmit'])) {
         exit;
     }
 }
-
+$pageTitle = "manage password";
 include 'includes/header.php';
 ?>
 <div class="container py-5">

@@ -53,7 +53,7 @@ $stm = oci_parse($conn, $sql);
 oci_execute($stm);
 $user = oci_fetch_assoc($stm);
 
-
+$pageTitle = "Customer Profile";
 // 4) Render
 include 'includes/header.php';
 ?>

@@ -20,7 +20,7 @@ if (isset($_POST['submit'])) {
         $_SESSION['failmessage'] = "Email does not exist";
     }
 }
-
+$pageTitle = "reset password";
 include "includes/header.php";
 ?>
 

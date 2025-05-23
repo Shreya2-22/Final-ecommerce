@@ -30,7 +30,7 @@ function isActive($page)
             <a class="nav-link d-flex justify-content-between align-items-center text-black <?= $isProductPage ? 'active' : '' ?>"
                 data-bs-toggle="collapse" href="#productsMenu" role="button"
                 aria-expanded="<?= $isProductPage ? 'true' : 'false' ?>" aria-controls="productsMenu">
-                <span><i class="fas fa-box me-2"></i> Products</span>
+                <span><i class="fas fa-box me-2"></i> Manage Products</span>
                 <i class="fas fa-chevron-down toggle-icon"></i>
             </a>
 
@@ -41,30 +41,21 @@ function isActive($page)
                 <a class="nav-link text-black <?= isActive('traderupdateproduct.php') ?>" href="traderupdateproduct.php">
                     <i class="fas fa-edit me-2"></i> Update Products
                 </a>
-                <a class="nav-link text-black <?= isActive('traderproductdetail.php') ?>" href="traderproductdetail.php">
-                    <i class="fas fa-info-circle me-2"></i> Product Details
-                </a>
-                <a class="nav-link text-black <?= isActive('tradermanageproducts.php') ?>" href="tradermanageproducts.php">
-                    <i class="fas fa-tasks me-2"></i> Manage Products
+                
+                <a class="nav-link text-black <?= isActive('trader_delete_products.php') ?>" href="trader_delete_products.php">
+                    <i class="fas fa-tasks me-2"></i> Delete Products
                 </a>
             </div>
         </li>
 
-        <li class="nav-item">
+        
+         <li class="nav-item">
             <a class="nav-link text-black <?= isActive('traderorders.php') ?>" href="traderorders.php">
                 <i class="fas fa-shopping-cart me-2"></i> View Orders
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link text-black <?= isActive('tradernotifications.php') ?>" href="tradernotifications.php">
-                <i class="fas fa-bell me-2"></i> Notifications
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link text-black" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
-                <i class="fas fa-key me-2"></i> Change Password
-            </a>
-        </li>
+       
+        
         <li class="nav-item">
             <a id="logoutSidebarLink" class="nav-link text-black" href="traderlogout.php" >
                 <i class="fas fa-sign-out-alt me-2"></i> Logout

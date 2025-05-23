@@ -1,4 +1,4 @@
-<?php include "includes/header.php"; ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -79,7 +79,7 @@
     </style>
 </head>
 <body>
-
+<?php include "includes/header.php"; ?>
 <div class="container-fluid">
     <section class="text-center">
         <h1 class="section-title">Our Story</h1>

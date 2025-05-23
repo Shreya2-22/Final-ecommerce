@@ -1,195 +1,142 @@
-<?php include('includes/traderheader.php'); ?>
+<?php
+session_start();
+include "includes/connect.php";
 
-<div class="container-fluid" style="margin-top: -10px;">
-  <div class="row gx-3 ms-2 align-items-start">
-    <?php include('includes/tradersidebar.php'); ?>
+// Restrict access to traders
+if (!isset($_SESSION['id']) || $_SESSION['role'] !== 'trader') {
+    header("Location: login.php");
+    exit();
+}
 
-    <main class="col-12 col-md content-box border me-3 py-4 px-4">
-      <div class="mx-auto w-100">
+$trader_id = $_SESSION['id'];
 
-        <!-- Search by Order ID -->
-        <form method="GET" class="mb-4">
-          <div class="input-group">
-            <input type="text" class="form-control" name="search_order" placeholder="Search by Order ID" 
-              value="<?= isset($_GET['search_order']) ? htmlspecialchars($_GET['search_order']) : '' ?>">
-            <button class="btn btn-primary" type="submit">Search</button>
-          </div>
-        </form>
+// Get trader's shop ID
+$shop_query = "SELECT SHOP_ID FROM SHOP WHERE FK1_USER_ID = :trader_id";
+$shop_stmt = oci_parse($conn, $shop_query);
+oci_bind_by_name($shop_stmt, ":trader_id", $trader_id);
+oci_execute($shop_stmt);
+$shop_row = oci_fetch_assoc($shop_stmt);
+$shop_id = $shop_row['SHOP_ID'];
 
-        <?php
-        $orders = [
-          ['order_id' => 'ORD1001', 'customer_name' => 'Alice Johnson', 'order_date' => '2025-05-10 14:32', 'status' => 'Pending', 'total' => 54.75],
-          ['order_id' => 'ORD1002', 'customer_name' => 'Bob Smith', 'order_date' => '2025-05-09 09:15', 'status' => 'Delivered', 'total' => 120.00],
-          ['order_id' => 'ORD1003', 'customer_name' => 'Charlie Lee', 'order_date' => '2025-05-08 18:45', 'status' => 'Processing', 'total' => 89.50],
-          ['order_id' => 'ORD1004', 'customer_name' => 'Diana Green', 'order_date' => '2025-05-07 11:22', 'status' => 'Dispatched', 'total' => 30.25],
-          ['order_id' => 'ORD1005', 'customer_name' => 'Ethan Clark', 'order_date' => '2025-05-06 17:05', 'status' => 'Pending', 'total' => 75.00],
-          ['order_id' => 'ORD1006', 'customer_name' => 'Fiona Davis', 'order_date' => '2025-05-05 13:14', 'status' => 'Delivered', 'total' => 50.00],
-          ['order_id' => 'ORD1007', 'customer_name' => 'George King', 'order_date' => '2025-05-04 15:33', 'status' => 'Processing', 'total' => 102.40],
-          ['order_id' => 'ORD1008', 'customer_name' => 'Hannah Scott', 'order_date' => '2025-05-03 12:00', 'status' => 'Pending', 'total' => 45.99],
-          ['order_id' => 'ORD1009', 'customer_name' => 'Ian Bell', 'order_date' => '2025-05-02 10:45', 'status' => 'Dispatched', 'total' => 60.50],
-          ['order_id' => 'ORD1010', 'customer_name' => 'Jane Cooper', 'order_date' => '2025-05-01 09:30', 'status' => 'Delivered', 'total' => 75.00],
-        ];
+// Pagination setup
+$page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+$perPage = 5;
+$offset = ($page - 1) * $perPage;
 
-        $ordersPerPage = 10;
-        $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int) $_GET['page'] : 1;
-        $searchTerm = isset($_GET['search_order']) ? trim($_GET['search_order']) : '';
+// Count total orders involving this trader's products
+$count_query = "
+    SELECT COUNT(*) AS TOTAL
+    FROM ORDER_PRODUCT op
+    JOIN PRODUCT p ON op.FK2_PRODUCT_ID = p.PRODUCT_ID
+    WHERE p.FK1_SHOP_ID = :shop_id";
+$count_stmt = oci_parse($conn, $count_query);
+oci_bind_by_name($count_stmt, ":shop_id", $shop_id);
+oci_execute($count_stmt);
+$total_row = oci_fetch_assoc($count_stmt);
+$total_orders = $total_row['TOTAL'];
+$total_pages = ceil($total_orders / $perPage);
 
-        if ($searchTerm !== '') {
-          $filteredOrders = array_filter($orders, function($order) use ($searchTerm) {
-            return stripos($order['order_id'], $searchTerm) !== false;
-          });
-        } else {
-          $filteredOrders = $orders;
+// Fetch trader's paginated orders
+$order_query = "
+    SELECT * FROM (
+        SELECT ROWNUM rnum, x.* FROM (
+            SELECT 
+                o.ORDER_ID,
+                o.ORDER_DATE,
+                u.Name AS CUSTOMER_NAME,
+                u.Email AS CUSTOMER_EMAIL,
+                p.PRODUCT_NAME,
+                op.QUANTITY,
+                op.PRODUCT_PRICE
+            FROM ORDERS o
+            JOIN ORDER_PRODUCT op ON o.ORDER_ID = op.FK1_ORDER_ID
+            JOIN PRODUCT p ON op.FK2_PRODUCT_ID = p.PRODUCT_ID
+            JOIN USER_MASTER u ON o.FK1_USER_ID = u.USER_ID
+            WHERE p.FK1_SHOP_ID = :shop_id
+            ORDER BY o.ORDER_DATE DESC
+        ) x WHERE ROWNUM <= :max_row
+    ) WHERE rnum > :min_row";
+
+$order_stmt = oci_parse($conn, $order_query);
+$max_row = $offset + $perPage;
+$min_row = $offset;
+oci_bind_by_name($order_stmt, ":shop_id", $shop_id);
+oci_bind_by_name($order_stmt, ":max_row", $max_row);
+oci_bind_by_name($order_stmt, ":min_row", $min_row);
+oci_execute($order_stmt);
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Trader Orders</title>
+    <link rel="stylesheet" href="css/style_temp.css">
+    <?php include "includes/traderheader.php"; include "includes/tradersidebar.php"; ?>
+    <style>
+        .main {
+            padding: 0;
+            margin-top: 0 !important;
         }
+        .container.pt-0 {
+            padding-top: 0 !important;
+            margin-top: -250px;
+        }
+        h3.mb-1 {
+            margin-top: 0 !important;
+            margin-bottom: 12px;
+        }
+        .order-card {
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin: 10px auto;
+            padding: 12px 20px;
+            max-width: 700px;
+            font-size: 0.9rem;
+        }
+        .order-card h5 {
+            margin: 0 0 6px;
+        }
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .pagination a {
+            margin: 0 4px;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        .pagination a.active {
+            background-color: #007bff;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<div class="main">
+    <div class="container pt-0 pb-1">
+        <h3 class="mb-1 text-center">Customer Orders</h3>
 
-        $totalOrders = count($filteredOrders);
-        $totalPages = max(10, ceil($totalOrders / $ordersPerPage));
-        $offset = ($page - 1) * $ordersPerPage;
-        $ordersToShow = array_slice($filteredOrders, $offset, $ordersPerPage);
-        ?>
+        <?php while ($row = oci_fetch_assoc($order_stmt)): ?>
+            <div class="order-card">
+                <h5>Order #<?php echo $row['ORDER_ID']; ?></h5>
+                <p><strong>Product:</strong> <?php echo htmlspecialchars($row['PRODUCT_NAME']); ?></p>
+                <p><strong>Quantity:</strong> <?php echo $row['QUANTITY']; ?></p>
+                <p><strong>Price:</strong> £<?php echo number_format($row['PRODUCT_PRICE'], 2); ?></p>
+                <p><strong>Order Date:</strong> <?php echo $row['ORDER_DATE']; ?></p>
+                <p><strong>Customer:</strong> <?php echo htmlspecialchars($row['CUSTOMER_NAME']); ?> (<?php echo $row['CUSTOMER_EMAIL']; ?>)</p>
+            </div>
+        <?php endwhile; ?>
 
-        <?php if ($totalOrders > 0): ?>
-          <div class="table-responsive">
-            <table class="table table-bordered table-hover align-middle">
-              <thead class="table-light">
-                <tr>
-                  <th>Order ID</th>
-                  <th>Customer Name</th>
-                  <th>Order Date</th>
-                  <th>Status</th>
-                  <th>Total Amount ($)</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php foreach ($ordersToShow as $order): ?>
-                <tr>
-                  <td><?= htmlspecialchars($order['order_id']) ?></td>
-                  <td><?= htmlspecialchars($order['customer_name']) ?></td>
-                  <td><?= date('d M Y, H:i', strtotime($order['order_date'])) ?></td>
-                  <td>
-                    <form method="POST" action="update_order_status.php" class="d-flex align-items-center">
-                      <input type="hidden" name="order_id" value="<?= htmlspecialchars($order['order_id']) ?>">
-                      <select name="status" class="form-select form-select-sm me-2">
-                        <?php
-                          $statuses = ['Pending', 'Processing', 'Dispatched', 'Delivered'];
-                          foreach ($statuses as $statusOption) {
-                            $selected = ($order['status'] === $statusOption) ? 'selected' : '';
-                            echo "<option value=\"$statusOption\" $selected>$statusOption</option>";
-                          }
-                        ?>
-                      </select>
-                      <button type="submit" class="btn btn-sm btn-success">Update</button>
-                    </form>
-                  </td>
-                  <td><?= number_format($order['total'], 2) ?></td>
-                  <td>
-                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#orderDetailsModal" 
-                      data-orderid="<?= htmlspecialchars($order['order_id']) ?>" 
-                      data-customer="<?= htmlspecialchars($order['customer_name']) ?>" 
-                      data-date="<?= date('d M Y, H:i', strtotime($order['order_date'])) ?>"
-                      data-status="<?= htmlspecialchars($order['status']) ?>"
-                      data-total="<?= number_format($order['total'], 2) ?>"
-                    >
-                      View Details
-                    </button>
-                  </td>
-                </tr>
-                <?php endforeach; ?>
-              </tbody>
-            </table>
-          </div>
-
-         <!-- Pagination Controls -->
-<nav aria-label="Orders pagination">
-  <ul class="pagination justify-content-start">
-
-    <?php
-    // Limit pagination to 10 total pages
-    $maxPagesToShow = 3;
-    $totalPages = min($totalPages, 10);
-
-    // Calculate the start and end page for current window
-    $startPage = max(1, $page - 1);
-    $endPage = min($startPage + $maxPagesToShow - 1, $totalPages);
-
-    if (($endPage - $startPage + 1) < $maxPagesToShow && $startPage > 1) {
-      $startPage = max(1, $endPage - $maxPagesToShow + 1);
-    }
-    ?>
-
-    <!-- Previous Button -->
-    <li class="page-item <?= $page <= 1 ? 'disabled' : '' ?>">
-      <a class="page-link" href="?<?= http_build_query(array_merge($_GET, ['page' => $page - 1])) ?>">Prev</a>
-    </li>
-
-    <!-- Page Numbers -->
-    <?php for ($p = $startPage; $p <= $endPage; $p++): ?>
-      <li class="page-item <?= $p == $page ? 'active' : '' ?>">
-        <a class="page-link" href="?<?= http_build_query(array_merge($_GET, ['page' => $p])) ?>"><?= $p ?></a>
-      </li>
-    <?php endfor; ?>
-
-    <!-- Next Button -->
-    <li class="page-item <?= $page >= $totalPages ? 'disabled' : '' ?>">
-      <a class="page-link" href="?<?= http_build_query(array_merge($_GET, ['page' => $page + 1])) ?>">Next</a>
-    </li>
-
-  </ul>
-</nav>
-
-        <?php else: ?>
-          <p class="text-center mt-5 text-muted fs-5">No orders found.</p>
-        <?php endif; ?>
-      </div>
-    </main>
-  </div>
-</div>
-
-<!-- Order Details Modal -->
-<div class="modal fade" id="orderDetailsModal" tabindex="-1" aria-labelledby="orderDetailsModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header bg-primary text-white">
-        <h5 class="modal-title" id="orderDetailsModalLabel">Order Details</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body" style="max-height:75vh; overflow-y: auto;">
-        <h6>Order ID: <span id="modalOrderId"></span></h6>
-        <p><strong>Customer:</strong> <span id="modalCustomer"></span></p>
-        <p><strong>Order Date:</strong> <span id="modalOrderDate"></span></p>
-
-        <hr>
-        <h6>Products</h6>
-        <table class="table table-sm table-bordered">
-          <thead class="table-light">
-            <tr>
-              <th>Product ID</th>
-              <th>Product Name</th>
-              <th>Quantity</th>
-              <th>Price</th>
-              <th>Discount</th>
-              <th>Subtotal</th>
-            </tr>
-          </thead>
-          <tbody id="productDetailsBody">
-            <!-- Rows inserted by JS -->
-          </tbody>
-        </table>
-
-        <div class="text-end">
-          <strong>Total Amount: $<span id="modalTotal"></span></strong>
+        <div class="pagination">
+            <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                <a href="?page=<?php echo $i; ?>" class="<?php if ($i == $page) echo 'active'; ?>"><?php echo $i; ?></a>
+            <?php endfor; ?>
         </div>
-
-        <hr>
-        <h6>Delivery Information</h6>
-        <p>Name: John Doe</p>
-        <p>Email: johndoe@example.com</p>
-        <p>Phone: 123-456-7890</p>
-      </div>
     </div>
-  </div>
 </div>
-
-
-<?php include('includes/traderfooter.php'); ?>
+<?php include "includes/footer.php"; ?>
+</body>
+</html>

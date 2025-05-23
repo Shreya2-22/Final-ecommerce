@@ -38,7 +38,7 @@ if (isset($_POST['submit'])) {
         header('Location: login.php');
     }
 }
-
+$pageTitle = "Change Password";
 include "includes/header.php";
 ?>
 
