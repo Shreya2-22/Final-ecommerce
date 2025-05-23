@@ -52,7 +52,7 @@ if (isset($_SESSION['id'])) {
     $type = $_POST['Shop_Type'];
     $image = $_FILES['Trad_Image']['name'];
     $role = "trader";
-    $status = "Verified";
+    $status = "Not Verified";
     $error = 0;
 
     if (strlen($name) < 5) {

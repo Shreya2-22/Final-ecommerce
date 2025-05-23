@@ -52,7 +52,7 @@ if (isset($_SESSION['id'])) {
         <select id="role" name="role" class="form-select form-select-sm px-3 py-2 rounded" required>
           <option selected disabled>Select your role</option>
           <option value="customer">Customer</option>
-          <option value="admin">Admin</option>
+          
           <option value="trader">Trader</option>
         </select>
       </div>

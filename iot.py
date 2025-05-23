@@ -13,16 +13,20 @@ DB_CONN = "localhost/xe"  # Use XE for Oracle Express Edition
 def get_serial_uid():
     try:
         arduino = serial.Serial('COM4', 9600, timeout=10)
-        print("Waiting for RFID UID scan...")
+        print("Waiting for RFID UID scan…")
         while True:
-            line = arduino.readline().decode('utf-8').strip()
-            if line.startswith("Scanned UID:"):
-                uid = line.replace("Scanned UID:", "").strip()
+            line = arduino.readline().decode('utf-8', errors='ignore').strip()
+            if not line:
+                continue
+            print("⮞ Received:", line)              # DEBUG: show everything coming in
+            if line.startswith("RFID Tag UID:"):    # match your actual prefix
+                uid = line.replace("RFID Tag UID:", "").strip()
                 arduino.close()
                 return uid
     except serial.SerialException as e:
         print(f"Error reading serial port: {e}")
         return None
+
 
 def check_uid_exists(cursor, uid):
     cursor.execute(
